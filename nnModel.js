@@ -1,27 +1,27 @@
 class ActivationFunction {
-  constructor(func, dfunc) {
-    this.func = func;
-    this.dfunc = dfunc;
-  }
+    constructor(func, dfunc) {
+        this.func = func;
+        this.dfunc = dfunc;
+    }
 }
 
 let sigmoid = new ActivationFunction(
-  x => 1 / (1 + Math.exp(-x)),
-  y => y * (1 - y)
+    x => 1 / (1 + Math.exp(-x)),
+    y => y * (1 - y)
 );
 
 let tanh = new ActivationFunction(
-  x => Math.tanh(x),
-  y => 1 - (y * y)
+    x => Math.tanh(x),
+    y => 1 - (y * y)
 );
 
 class NeuralNetworkModel {
     constructor(inpNum, hidNum, outNum) {
-        if(inpNum instanceof NeuralNetworkModel){
+        if (inpNum instanceof NeuralNetworkModel) {
             let a = inpNum;
 
             this.inpNum = a.inpNum;
-            this.hidNum = a.inpNum;
+            this.hidNum = a.hidNum;
             this.outNum = a.outNum;
 
             this.ihWeights = a.ihWeights.copy();
@@ -31,7 +31,7 @@ class NeuralNetworkModel {
             this.oBias = a.oBias.copy();
         } else {
             this.inpNum = inpNum;
-            this.hidNum = inpNum;
+            this.hidNum = hidNum;
             this.outNum = outNum;
 
             //presta atenção nessa linha e coluna aqui
@@ -75,7 +75,7 @@ class NeuralNetworkModel {
     }
 
     train(inputArray, expectedOutArray) {
-    ///feed forward
+        ///feed forward
         let input = Matrix.transfArrayM(inputArray);
         let hidden = Matrix.mult(this.ihWeights, input);
         hidden.add(this.hBias);
@@ -86,7 +86,7 @@ class NeuralNetworkModel {
         output.addFunc(this.activation_function.func);
         //
 
-    ///train
+        ///train
         let expectedOut = Matrix.transfArrayM(expectedOutArray);
 
         ///output error;
@@ -125,11 +125,11 @@ class NeuralNetworkModel {
         this.hBias.add(hGradient);
     }
 
-    copy(){
+    copy() {
         return new NeuralNetworkModel(this);
     }
 
-    mutate(rate){
+    mutate(rate) {
         function mutate(val) {
             if (Math.random() < rate) {
                 return val + randomGaussian(0, 0.1);
